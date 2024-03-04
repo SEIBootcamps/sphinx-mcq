@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "sphinx-mcq"
+version = "0.1.0"
+description = ""
+authors = ["Ashley Trinh <itsashley@hey.com>"]
+readme = "README.md"
+packages = [{include = "sphinx_mcq", from = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4"
+sphinx = ">=6,<8"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3.0"
+pre-commit = "^3.6.2"
+
+[tool.poetry.group.lsp]
+optional = true
+
+[tool.poetry.group.lsp.dependencies]
+esbonio = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
