@@ -34,7 +34,9 @@ class MCQChoices(SphinxTransform):
 
                     item.replace_self(choice_node)
                 answer_choices.replace_self(
-                    mcq_choices_list("", *answer_choices.children)
+                    mcq_choices_list(
+                        "", *answer_choices.children, classes=["upperalpha"]
+                    )
                 )
 
 
