@@ -36,3 +36,9 @@
 | name          | `unchanged`    | Use this option to specify a DOM ID for the node. It will be prefixed with `mcq-` during the build process                                                                     |
 | numbered      | `flag`         | If present, this question will be numbered with CSS `counter()`.                                                                                                               |
 | show_feedback | `flag`         | If present, this question will be made into an interactive UI component that will allow students to check their chosen answer and get feedback on whether it's right or wrong. |
+
+## Roadmap
+
+- [ ] Create a proper answer key builder (there's a _very_ stupid implementation in
+      `sphinx_mcq.builder` but it's not actually a Sphinx builder...)
+- [ ] Better tests
