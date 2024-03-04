@@ -14,12 +14,17 @@ sphinx = ">=6,<8"
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.0"
 pre-commit = "^3.6.2"
+pytest = "^8.0.2"
+beautifulsoup4 = "^4.12.3"
 
 [tool.poetry.group.lsp]
 optional = true
 
 [tool.poetry.group.lsp.dependencies]
 esbonio = "*"
+
+[tool.pytest.ini_options]
+markers = ["sphinx_build"]
 
 [build-system]
 requires = ["poetry-core"]

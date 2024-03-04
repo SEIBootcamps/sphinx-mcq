@@ -1,0 +1,10 @@
+============================
+Welcome to the Test Document
+============================
+
+.. mcq:: This is a test question.
+   :answer: A
+
+   A. This is the correct answer.
+
+      :feedback: Reasons why this is the correct answer.
