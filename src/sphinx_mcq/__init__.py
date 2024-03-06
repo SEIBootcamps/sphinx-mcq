@@ -28,10 +28,14 @@ Example::
 
 from typing import TYPE_CHECKING
 
+from os import path
+from pathlib import Path
+
 from docutils import nodes
 from docutils.parsers.rst import directives
 from sphinx.util import logging
 from sphinx.util.docutils import SphinxDirective
+from sphinx.util.osutil import copyfile, ensuredir
 
 if TYPE_CHECKING:
     from typing import List
@@ -42,6 +46,12 @@ from .addnodes import mcq, mcq_body
 from . import addnodes, builder
 
 logger = logging.getLogger(__name__)
+
+module_dir = Path(path.abspath(path.dirname(__file__)))
+assets_dir = (module_dir / "assets").resolve()
+css_files = [
+    ("mcq-styles.css", {}),
+]
 
 
 class MCQDirective(SphinxDirective):
@@ -111,7 +121,37 @@ class MCQDirective(SphinxDirective):
         return [node]
 
 
+def add_css_files(app: "Sphinx") -> None:
+    """Add static files to Sphinx builder."""
+
+    # Only add static files to enabled builders.
+    if app.builder.name in app.config.mcq_builders:
+        # Register CSS files with builder and copy to build output
+        for f, opts in css_files:
+            app.add_css_file(f, **opts)
+
+
+def copy_css_files(app: "Sphinx", exception: Exception) -> None:
+    """Copy CSS files into output directory."""
+
+    if exception:
+        return
+
+    staticdir = (Path(app.builder.outdir) / "_static").resolve()
+    for f in [file for file, *_ in css_files]:
+        try:
+            source = assets_dir / f
+            dest = staticdir / Path(f).name
+            ensuredir(str(dest.parent))
+            copyfile(str(source), str(dest))
+        except FileNotFoundError:
+            logger.warning(f"Could not copy {f} to output directory.", color="yellow")
+
+
 def setup(app: "Sphinx"):
+    app.add_config_value("mcq_builders", ["html"], "html")
+    app.connect("builder-inited", add_css_files)
+    app.connect("build-finished", copy_css_files)
     addnodes.setup(app)
     app.add_directive("mcq", MCQDirective)
     app.add_transform(MCQChoices)

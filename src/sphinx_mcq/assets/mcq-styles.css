@@ -1,0 +1,42 @@
+.numbered.mcq > .mcq-body {
+  position: relative;
+  padding: 0.5rem 0 0.5rem 2.5rem;
+  border: 0;
+  margin-bottom: 0.25rem;
+}
+
+.numbered.mcq > .mcq-body > p:first-child {
+  margin-top: 0;
+}
+
+.numbered.mcq > .mcq-body::before {
+  --mcq-number-color: var(--bs-body-bg, #fff);
+  --mcq-number-bg: var(--bs-body-color, #000);
+
+  width: calc(1.5rem - 2px);
+  height: calc(1.5rem - 2px);
+  font-size: calc(1rem - 2px);
+  margin: 1px 0 0 0.5rem;
+  content: counter(mcq);
+  counter-increment: mcq;
+  position: absolute;
+  left: 0;
+  color: var(--mcq-number-color);
+  font-weight: 500;
+  text-align: center;
+  border-radius: 50%;
+  background-color: var(--mcq-number-bg);
+}
+
+.numbered.mcq > .mcq-body::after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+ol.mcq-choices .mcq-answer-group > li::marker {
+  font-weight: bold;
+}
