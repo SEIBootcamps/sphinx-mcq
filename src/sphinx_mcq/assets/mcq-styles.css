@@ -1,3 +1,7 @@
+.numbered.mcq {
+  counter-increment: mcq;
+}
+
 .numbered.mcq > .mcq-body {
   position: relative;
   padding: 0.5rem 0 0.5rem 2.5rem;
@@ -18,7 +22,6 @@
   font-size: calc(1rem - 2px);
   margin: 1px 0 0 0.5rem;
   content: counter(mcq);
-  counter-increment: mcq;
   position: absolute;
   left: 0;
   color: var(--mcq-number-color);
