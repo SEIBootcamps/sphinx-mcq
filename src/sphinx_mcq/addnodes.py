@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     from sphinx.application import Sphinx
 
 
-class UsesNameAsClass(nodes.Node):
+class UsesNameAsClass(nodes.Element):
     """Mixin that adds self.classname to the node's list of classes."""
 
     classname: "Optional[str]" = None
@@ -20,6 +20,7 @@ class UsesNameAsClass(nodes.Node):
             self["classes"] += [self.classname]
 
 
+# pylint: disable=invalid-name
 class mcq(UsesNameAsClass, nodes.Element):
     """Multiple choice question node."""
 
@@ -70,22 +71,19 @@ def depart_mcq_choices_list(self, node: mcq_choices_list):
 
 
 def visit_mcq_choice(self, node: mcq_choice):
-    self.body.append('<div class="mcq-answer-group">')
-
+    self.body.append('<div class="mcq-answer-group\n">')
     if node.parent.parent.get("show_feedback"):
-        input_id = nodes.make_id(f"{node.get('mcq_id')}-input")
+        self.body.append("<label>\n")
         self.body.append(
-            f'<input id="{input_id}" type="radio" name="{node.get("mcq_id")}" value="{node.get("value")}" />'
+            f'<input type="radio" name="{node.get("mcq_id")}" value="{node.get("value")}" />'
         )
-        self.body.append(f'<label for="{input_id}">')
-
     self.body.append(self.starttag(node, "li"))
 
 
 def depart_mcq_choice(self, node: mcq_choice):
     self.body.append("</li>")
 
-    if node.get("should_have_feedback"):
+    if node.get("show_feedback"):
         self.body.append("</label>")
     self.body.append("</div>")
 
